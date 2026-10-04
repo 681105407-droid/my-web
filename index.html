@@ -1,459 +1,762 @@
-<!DOCTYPE html>
-<html lang="th">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IT Open House - ลงทะเบียน & Dashboard</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Google Fonts (Kanit) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Kanit', sans-serif;
-            background-color: #f8fafc;
-        }
-    </style>
-</head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>MY WEB'S</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<style>
+/* Layout: centered arcade title above a two-column stage-select panel, over a fixed low-res canvas sunset landscape; hero character stands bottom-left. Single committed night-arcade look. */
+:root {
+  color-scheme: dark;
+  --night: #120a3a;
+  --violet: #3b1f7a;
+  --pink: #ff6fae;
+  --gold: #ffd23f;
+  --sky: #5cc8ff;
+  --leaf: #6be07a;
+  --ink: #1b1033;
+  --lilac: #e5dcff;
+  --frame: #7b5cd6;
+  --font-display: 'Press Start 2P', ui-monospace, 'Courier New', monospace;
+  --font-body: 'Kanit', 'Sarabun', system-ui, sans-serif;
+  --font-util: 'VT323', ui-monospace, 'Courier New', monospace;
+  --ground: 150px;
+}
 
-    <!-- Header / Banner -->
-    <header class="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white py-12 px-4 shadow-lg">
-        <div class="max-w-6xl mx-auto text-center">
-            <span class="inline-block bg-white/20 backdrop-blur-md text-white text-sm font-medium px-4 py-1.5 rounded-full mb-3 shadow-inner">
-                🚀 IT Open House
-            </span>
-            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight mb-3">
-                เปิดบ้านคณะเทคโนโลยีสารสนเทศ
-            </h1>
-            <p class="text-blue-100 text-base md:text-lg max-w-2xl mx-auto">
-                ลงทะเบียนเข้าร่วมกิจกรรม พร้อมเลือกสาขาวิชาที่คุณสนใจเพื่อรับข่าวสารและสิทธิพิเศษมากมาย!
-            </p>
-        </div>
-    </header>
+body {
+  background: var(--night);
+  color: var(--lilac);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.4;
+  padding-inline: 16px;
+  padding-block: 32px calc(var(--ground) + 32px);
+  overflow-x: hidden;
+}
 
-    <!-- Main Content Container -->
-    <main class="max-w-6xl mx-auto px-4 py-8 w-full flex-grow">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            
-            <!-- SECTION 1: Form -->
-            <section class="lg:col-span-7 bg-white rounded-2xl shadow-xl border border-slate-100 p-6 md:p-8 transition-all hover:shadow-2xl">
-                <div class="flex items-center space-x-3 mb-6 pb-4 border-b border-slate-100">
-                    <div class="p-3 bg-indigo-50 text-indigo-600 rounded-xl">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <h2 class="text-xl md:text-2xl font-bold text-slate-800">แบบฟอร์มลงทะเบียน</h2>
-                        <p class="text-xs md:text-sm text-slate-500">กรุณากรอกข้อมูลให้ครบถ้วนเพื่อลงทะเบียน</p>
-                    </div>
-                </div>
+#scene {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  image-rendering: pixelated;
+  pointer-events: none;
+  background: var(--night);
+}
 
-                <form id="registrationForm" class="space-y-5">
-                    <!-- คำนำหน้า & ชื่อ-นามสกุล -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                            <label for="prefix" class="block text-sm font-medium text-slate-700 mb-1.5">คำนำหน้า <span class="text-rose-500">*</span></label>
-                            <select id="prefix" name="prefix" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none text-slate-700">
-                                <option value="" disabled selected>เลือกคำนำหน้า</option>
-                                <option value="นาย">นาย</option>
-                                <option value="นาง">นาง</option>
-                                <option value="นางสาว">นางสาว</option>
-                                <option value="เด็กชาย">เด็กชาย</option>
-                                <option value="เด็กหญิง">เด็กหญิง</option>
-                            </select>
-                        </div>
-                        <div class="md:col-span-2">
-                            <label for="fullname" class="block text-sm font-medium text-slate-700 mb-1.5">ชื่อ - นามสกุล <span class="text-rose-500">*</span></label>
-                            <input type="text" id="fullname" name="fullname" placeholder="สมชาย ใจดี" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none">
-                        </div>
-                    </div>
+.stage {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+  max-width: 820px;
+  margin-inline: auto;
+}
 
-                    <!-- เพศ & อายุ -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="gender" class="block text-sm font-medium text-slate-700 mb-1.5">เพศ <span class="text-rose-500">*</span></label>
-                            <select id="gender" name="gender" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none text-slate-700">
-                                <option value="" disabled selected>เลือกเพศ</option>
-                                <option value="ชาย">ชาย</option>
-                                <option value="หญิง">หญิง</option>
-                                <option value="ทางเลือก/ไม่ระบุ">ทางเลือก / ไม่ระบุ</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="age" class="block text-sm font-medium text-slate-700 mb-1.5">อายุ (ปี) <span class="text-rose-500">*</span></label>
-                            <input type="number" id="age" name="age" min="1" max="100" placeholder="17" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none">
-                        </div>
-                    </div>
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  max-width: 100%;
+}
+.logo-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  padding-inline: 12px;
+}
+.logo {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(26px, 7.4vw, 68px);
+  line-height: 1.1;
+  color: #fff;
+  letter-spacing: .02em;
+  text-shadow:
+    .07em .07em 0 var(--gold),
+    .14em .14em 0 #3a1260,
+    .21em .21em 0 var(--ink);
+}
+.spr { image-rendering: pixelated; flex: none; max-width: 100%; }
+.spr.bob { animation: bob 1.2s steps(2, end) infinite; }
+.tag-th {
+  margin: 0;
+  font-weight: 600;
+  font-size: clamp(18px, 3.6vw, 26px);
+  color: #fff;
+  text-align: center;
+  text-shadow: 2px 2px 0 var(--ink), 4px 4px 0 #3a1260;
+}
+.blink {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(9px, 1.9vw, 12px);
+  letter-spacing: .12em;
+  color: var(--gold);
+  text-shadow: 2px 2px 0 var(--ink);
+  animation: blink 1.1s steps(1, end) infinite;
+}
+.spark {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #fff;
+  box-shadow: 6px 0 #fff, -6px 0 #fff, 0 6px #fff, 0 -6px #fff;
+  animation: twinkle 1.6s steps(1, end) infinite;
+}
+.spark.s1 { top: -6px; left: 22%; }
+.spark.s2 { top: 30%; right: 0; background: var(--gold); box-shadow: 6px 0 var(--gold), -6px 0 var(--gold), 0 6px var(--gold), 0 -6px var(--gold); animation-delay: .5s; }
+.spark.s3 { bottom: -4px; left: 4%; background: var(--pink); box-shadow: 6px 0 var(--pink), -6px 0 var(--pink), 0 6px var(--pink), 0 -6px var(--pink); animation-delay: 1s; }
 
-                    <!-- ระดับชั้น & โรงเรียน -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="education" class="block text-sm font-medium text-slate-700 mb-1.5">ระดับชั้น <span class="text-rose-500">*</span></label>
-                            <select id="education" name="education" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none text-slate-700">
-                                <option value="" disabled selected>เลือกระดับชั้น</option>
-                                <option value="มัธยมศึกษาตอนต้น">มัธยมศึกษาตอนต้น</option>
-                                <option value="มัธยมศึกษาตอนปลาย">มัธยมศึกษาตอนปลาย</option>
-                                <option value="ปวช.">ปวช.</option>
-                                <option value="ปวส.">ปวส.</option>
-                                <option value="อื่นๆ">อื่นๆ</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="school" class="block text-sm font-medium text-slate-700 mb-1.5">ชื่อโรงเรียน / สถาบัน <span class="text-rose-500">*</span></label>
-                            <input type="text" id="school" name="school" placeholder="โรงเรียนวิทยาศาสตร์..." required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none">
-                        </div>
-                    </div>
+/* ---------- Panel ---------- */
+.panel {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px 22px 18px;
+  background: rgba(18, 10, 58, .9);
+  box-shadow:
+    0 -6px 0 0 var(--ink), 0 6px 0 0 var(--ink), -6px 0 0 0 var(--ink), 6px 0 0 0 var(--ink),
+    inset 0 0 0 4px var(--frame),
+    inset 0 0 0 8px var(--night),
+    0 14px 0 0 rgba(0, 0, 0, .35);
+}
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 6px 8px 18px;
+}
+.panel-title { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.panel-title h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 13px;
+  letter-spacing: .08em;
+  color: var(--gold);
+}
+.panel-title span { font-weight: 500; font-size: 15px; color: var(--lilac); }
 
-                    <!-- เบอร์โทรศัพท์ & LineID -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="phone" class="block text-sm font-medium text-slate-700 mb-1.5">เบอร์โทรศัพท์ <span class="text-rose-500">*</span></label>
-                            <input type="tel" id="phone" name="phone" placeholder="0812345678" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none">
-                        </div>
-                        <div>
-                            <label for="lineId" class="block text-sm font-medium text-slate-700 mb-1.5">Line ID</label>
-                            <input type="text" id="lineId" name="lineId" placeholder="line_id_123" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all outline-none">
-                        </div>
-                    </div>
+.snd {
+  font-family: var(--font-display);
+  font-size: 10px;
+  letter-spacing: .06em;
+  color: var(--ink);
+  background: var(--sky);
+  border: 0;
+  border-radius: 0;
+  padding: 12px 14px;
+  min-height: 44px;
+  cursor: pointer;
+  box-shadow: 0 -3px 0 0 var(--ink), 0 3px 0 0 var(--ink), -3px 0 0 0 var(--ink), 3px 0 0 0 var(--ink), inset 3px 3px 0 0 #a6e4ff, inset -3px -3px 0 0 #2a94d6;
+}
+.snd[aria-pressed="false"] { background: #9a93b8; box-shadow: 0 -3px 0 0 var(--ink), 0 3px 0 0 var(--ink), -3px 0 0 0 var(--ink), 3px 0 0 0 var(--ink), inset 3px 3px 0 0 #c4bfdc, inset -3px -3px 0 0 #6a648a; }
+.snd:focus-visible { outline: 4px dashed #fff; outline-offset: 6px; }
 
-                    <!-- สาขาวิชาที่สนใจ -->
-                    <div class="pt-2">
-                        <label class="block text-sm font-semibold text-slate-800 mb-2">สาขาวิชาที่สนใจ <span class="text-rose-500">*</span></label>
-                        <div class="space-y-2 bg-slate-50 p-4 rounded-xl border border-slate-200">
-                            <label class="flex items-center space-x-3 p-2 rounded-lg hover:bg-white transition-all cursor-pointer">
-                                <input type="radio" name="interest" value="เทคโนโลยีธุรกิจดิจิทัล" required class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 border-slate-300">
-                                <span class="text-sm font-medium text-slate-700">เทคโนโลยีธุรกิจดิจิทัล</span>
-                            </label>
-                            <label class="flex items-center space-x-3 p-2 rounded-lg hover:bg-white transition-all cursor-pointer">
-                                <input type="radio" name="interest" value="เทคโนโลยีสารสนเทศและนวัตกรรมดิจิทัล" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 border-slate-300">
-                                <span class="text-sm font-medium text-slate-700">เทคโนโลยีสารสนเทศและนวัตกรรมดิจิทัล</span>
-                            </label>
-                            <label class="flex items-center space-x-3 p-2 rounded-lg hover:bg-white transition-all cursor-pointer">
-                                <input type="radio" name="interest" value="ดิจิทัลมีเดียอาร์ต" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 border-slate-300">
-                                <span class="text-sm font-medium text-slate-700">ดิจิทัลมีเดียอาร์ต</span>
-                            </label>
-                            <label class="flex items-center space-x-3 p-2 rounded-lg hover:bg-white transition-all cursor-pointer">
-                                <input type="radio" name="interest" value="วิศวกรรมความปลอดภัย" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 border-slate-300">
-                                <span class="text-sm font-medium text-slate-700">วิศวกรรมความปลอดภัย</span>
-                            </label>
-                            <label class="flex items-center space-x-3 p-2 rounded-lg hover:bg-white transition-all cursor-pointer">
-                                <input type="radio" name="interest" value="ไม่สนใจ" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 border-slate-300">
-                                <span class="text-sm font-medium text-slate-700">ยังไม่สนใจสาขาใดเป็นพิเศษ</span>
-                            </label>
-                        </div>
-                    </div>
+.menu {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px 24px;
+  margin: 0;
+  padding: 8px 8px 14px;
+  list-style: none;
+}
+.menu li { min-width: 0; }
 
-                    <!-- Submit Button -->
-                    <button type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-medium py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center space-x-2">
-                        <span>ส่งข้อมูลลงทะเบียน</span>
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                        </svg>
-                    </button>
-                    <!-- Notification status -->
-                    <div id="statusMessage" class="hidden text-center text-sm font-medium p-3 rounded-xl"></div>
-                </form>
-            </section>
+.btn {
+  --c: #ff7ab8; --hi: #ffb3d6; --lo: #d9488f;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 76px;
+  padding: 12px 16px;
+  background: var(--c);
+  color: var(--ink);
+  text-decoration: none;
+  text-align: left;
+  font: inherit;
+  border: 0;
+  border-radius: 0;
+  cursor: pointer;
+  box-shadow:
+    0 -4px 0 0 var(--ink), 0 4px 0 0 var(--ink), -4px 0 0 0 var(--ink), 4px 0 0 0 var(--ink),
+    inset 4px 4px 0 0 var(--hi),
+    inset -4px -4px 0 0 var(--lo),
+    0 8px 0 0 var(--ink);
+  transition: transform .08s steps(2, end), box-shadow .08s steps(2, end);
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:hover,
+.btn:focus-visible {
+  transform: translateY(-4px);
+  box-shadow:
+    0 -4px 0 0 var(--ink), 0 4px 0 0 var(--ink), -4px 0 0 0 var(--ink), 4px 0 0 0 var(--ink),
+    inset 4px 4px 0 0 var(--hi),
+    inset -4px -4px 0 0 var(--lo),
+    0 12px 0 0 var(--ink);
+}
+.btn:focus-visible { outline: 4px dashed #fff; outline-offset: 10px; }
+.btn:active {
+  transform: translateY(2px);
+  box-shadow:
+    0 -4px 0 0 var(--ink), 0 4px 0 0 var(--ink), -4px 0 0 0 var(--ink), 4px 0 0 0 var(--ink),
+    inset 4px 4px 0 0 var(--lo),
+    inset -4px -4px 0 0 var(--hi),
+    0 6px 0 0 var(--ink);
+}
+.btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+}
+.btn.flash::after { animation: flash .26s steps(3, end); }
 
-            <!-- SECTION 2: Dashboard / Chart -->
-            <section class="lg:col-span-5 bg-white rounded-2xl shadow-xl border border-slate-100 p-6 md:p-8 flex flex-col justify-between transition-all hover:shadow-2xl">
-                <div>
-                    <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
-                        <div class="flex items-center space-x-3">
-                            <div class="p-3 bg-purple-50 text-purple-600 rounded-xl">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <h2 class="text-xl md:text-2xl font-bold text-slate-800">สรุปความสนใจ</h2>
-                                <p class="text-xs md:text-sm text-slate-500">สัดส่วนสาขาวิชาที่ได้รับความสนใจ</p>
-                            </div>
-                        </div>
-                        <button id="refreshBtn" title="โหลดข้อมูลใหม่" class="p-2 text-slate-400 hover:text-indigo-600 rounded-lg hover:bg-slate-100 transition-all">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                            </svg>
-                        </button>
-                    </div>
+.badge {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  background: var(--ink);
+  color: var(--hi);
+  font-family: var(--font-display);
+  font-size: 14px;
+  box-shadow: inset 0 0 0 3px var(--lo);
+}
+.txt { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+.name {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  overflow-wrap: anywhere;
+}
+.host {
+  font-family: var(--font-util);
+  font-size: 20px;
+  line-height: 1;
+  color: rgba(27, 16, 51, .8);
+  overflow-wrap: anywhere;
+}
+.go { flex: none; width: 20px; height: 28px; fill: var(--ink); opacity: 0; transform: translateX(-8px); transition: opacity .08s steps(1, end), transform .08s steps(2, end); }
+.btn:hover .go, .btn:focus-visible .go { opacity: 1; transform: none; }
+.go.lock { opacity: 1; transform: none; }
 
-                    <!-- Total count box -->
-                    <div class="bg-gradient-to-r from-slate-800 to-indigo-900 text-white rounded-xl p-4 mb-6 shadow-md flex justify-between items-center">
-                        <div>
-                            <span class="text-xs text-slate-300 block">ผู้ลงทะเบียนทั้งหมด</span>
-                            <span id="totalCount" class="text-2xl font-extrabold">0</span> <span class="text-sm text-slate-300">คน</span>
-                        </div>
-                        <div class="text-xs bg-white/10 px-2.5 py-1 rounded-full text-slate-200">
-                            อัปเดตแบบเรียลไทม์
-                        </div>
-                    </div>
+.panel-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  padding: 10px 8px 4px;
+  font-family: var(--font-util);
+  font-size: 22px;
+  line-height: 1;
+  color: var(--lilac);
+}
+.panel-foot b { font-weight: 400; color: var(--gold); }
 
-                    <!-- Chart Canvas Container -->
-                    <div class="relative w-full aspect-square max-w-[320px] mx-auto flex items-center justify-center">
-                        <canvas id="interestChart"></canvas>
-                        <!-- Loading Indicator -->
-                        <div id="chartLoading" class="absolute inset-0 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center rounded-xl">
-                            <div class="w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mb-2"></div>
-                            <span class="text-xs font-medium text-slate-500">กำลังโหลดข้อมูล...</span>
-                        </div>
-                    </div>
-                </div>
+/* ---------- Effects ---------- */
+#fx { position: fixed; inset: 0; z-index: 50; pointer-events: none; overflow: hidden; }
+.px {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  animation: burst .55s steps(6, end) forwards;
+}
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--ground) + 18px);
+  transform: translateX(-50%);
+  z-index: 60;
+  width: max-content;
+  max-width: calc(100% - 32px);
+  box-sizing: border-box;
+  padding: 12px 16px;
+  background: var(--ink);
+  color: #fff;
+  font-weight: 500;
+  font-size: 16px;
+  text-align: center;
+  box-shadow: 0 -4px 0 0 var(--gold), 0 4px 0 0 var(--gold), -4px 0 0 0 var(--gold), 4px 0 0 0 var(--gold);
+}
 
-                <div class="mt-6 pt-4 border-t border-slate-100 text-center text-xs text-slate-400">
-                    * ข้อมูลสรุปอัปเดตจากการลงทะเบียนจริง
-                </div>
-            </section>
-        </div>
-    </main>
+@keyframes bob { 0% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+@keyframes blink { 0%, 60% { opacity: 1; } 61%, 100% { opacity: 0; } }
+@keyframes twinkle { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+@keyframes flash { 0% { opacity: .95; } 50% { opacity: .5; } 100% { opacity: 0; } }
+@keyframes burst {
+  0% { transform: translate(0, 0); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)); opacity: 0; }
+}
 
-    <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-400 py-6 text-center text-sm border-t border-slate-800">
-        <p>© 2026 Faculty of Information Technology. All rights reserved.</p>
-    </footer>
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+  body { padding-block-start: 22px; }
+  .stage { gap: 28px; }
+  .panel { padding: 14px 12px 14px; }
+  .panel-head { padding: 4px 4px 14px; }
+  .menu { grid-template-columns: minmax(0, 1fr); gap: 20px; padding-inline: 4px; }
+  .btn { min-height: 68px; padding: 10px 14px; }
+  .name { font-size: 17px; }
+  .badge { width: 36px; height: 36px; font-size: 12px; }
+  .panel-foot { font-size: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
 
-    <!-- JavaScript Handling -->
-    <script>
-        // *** ใส่ Web App URL ของ Google Apps Script ที่นี่ ***
-        const WEB_APP_URL = 'YOUR_WEB_APP_URL';
+<canvas id="scene" aria-hidden="true"></canvas>
+<div id="fx" aria-hidden="true"></div>
 
-        const ALL_CATEGORIES = [
-            'เทคโนโลยีธุรกิจดิจิทัล',
-            'เทคโนโลยีสารสนเทศและนวัตกรรมดิจิทัล',
-            'ดิจิทัลมีเดียอาร์ต',
-            'วิศวกรรมความปลอดภัย',
-            'ไม่สนใจ'
-        ];
+<main class="stage">
+  <header class="hero">
+    <div class="logo-row">
+      <canvas class="spr bob" data-sprite="trophy" aria-hidden="true"></canvas>
+      <h1 class="logo">MY WEB'S</h1>
+      <canvas class="spr bob" data-sprite="coin" style="animation-delay:.6s" aria-hidden="true"></canvas>
+      <i class="spark s1"></i><i class="spark s2"></i><i class="spark s3"></i>
+    </div>
+    <p class="tag-th">รวมลิงก์เว็บไซต์ของฉัน</p>
+    <p class="blink" aria-hidden="true">SELECT STAGE</p>
+  </header>
 
-        const CATEGORY_COLORS = [
-            '#6366f1', // Indigo
-            '#3b82f6', // Blue
-            '#ec4899', // Pink
-            '#10b981', // Emerald
-            '#94a3b8'  // Slate
-        ];
+  <section class="panel" aria-labelledby="panel-h">
+    <div class="panel-head">
+      <div class="panel-title">
+        <h2 id="panel-h">STAGE SELECT</h2>
+        <span>เลือกด่านเพื่อเปิดเว็บไซต์</span>
+      </div>
+      <button type="button" class="snd" id="snd" aria-pressed="true">SOUND ON</button>
+    </div>
+    <ul class="menu" id="menu"></ul>
+    <noscript><p style="padding:8px">ต้องเปิด JavaScript เพื่อแสดงเมนูลิงก์</p></noscript>
+    <div class="panel-foot">
+      <span>TAB / ลูกศร = เลือก &nbsp;·&nbsp; ENTER = เข้าด่าน</span>
+      <span id="count">UNLOCKED <b>0/0</b></span>
+    </div>
+  </section>
+</main>
 
-        let interestChart = null;
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
-        document.addEventListener('DOMContentLoaded', () => {
-            initChart();
-            fetchDashboardData();
+<script>
+(function () {
+  'use strict';
 
-            const form = document.getElementById('registrationForm');
-            form.addEventListener('submit', handleFormSubmit);
+  /* ===== แก้ลิงก์ที่นี่ =====
+     name = ชื่อบนปุ่ม, url = ลิงก์ของเว็บไซต์, tone = สีปุ่ม
+     ปล่อย url ว่าง ("") ปุ่มจะเป็นด่านที่ยังล็อกอยู่ */
+  var LINKS = [
+    { name: 'อาหารตามสั่ง', url: 'https://681105407-droid.github.io/pppp/', tone: 'pink' },
+    { name: 'เกม', url: 'https://681105407-droid.github.io/-gem-food-memory-game/', tone: 'sky' },
+    { name: 'คำนวณหาค่า BMI', url: 'https://script.google.com/a/macros/northbkk.ac.th/s/AKfycbw-QqciE9qUzjrUrTMubaSsPDXzu1uQjhz27gkZJSUZCI9DkVFBawgsHL7Vv8Rleq9afw/exec', tone: 'leaf' },
+    { name: 'Personal Website', url: 'https://sites.google.com/northbkk.ac.th/jat555555/home', tone: 'gold' },
+    { name: 'Open House Registration Website', url: 'https://681105407-droid.github.io/openhouse-register02/', tone: 'violet' },
+    { name: 'Information Website Data Analytic', url: 'https://sites.google.com/northbkk.ac.th/pormptai555/home', tone: 'orange' },
+    { name: 'Teem', url: 'https://681105407-droid.github.io/-01/', tone: 'cyan' },
+    { name: 'BMC Website', url: '', tone: 'lock' }
+  ];
+  /* true = เปิดในหน้าเดิม (ใช้เมื่อนำไฟล์ไปโฮสต์เป็นเว็บของตัวเอง) */
+  var OPEN_IN_SAME_TAB = false;
 
-            document.getElementById('refreshBtn').addEventListener('click', () => {
-                fetchDashboardData();
-            });
-        });
+  var TONES = {
+    pink:   ['#ff7ab8', '#ffb3d6', '#d9488f'],
+    sky:    ['#5cc8ff', '#a6e4ff', '#2a94d6'],
+    leaf:   ['#6be07a', '#a8f2b0', '#33a84a'],
+    gold:   ['#ffd23f', '#ffe987', '#d9a400'],
+    violet: ['#b69cff', '#d9ccff', '#7d5fd6'],
+    orange: ['#ff9a4a', '#ffc08a', '#d9631a'],
+    cyan:   ['#4ee8d6', '#9ff5ea', '#1fb3a2'],
+    lock:   ['#9a93b8', '#c4bfdc', '#6a648a']
+  };
 
-        // สร้าง Chart.js Doughnut Chart เริ่มต้น
-        function initChart() {
-            const ctx = document.getElementById('interestChart').getContext('2d');
-            interestChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ALL_CATEGORIES,
-                    datasets: [{
-                        data: [0, 0, 0, 0, 0],
-                        backgroundColor: CATEGORY_COLORS,
-                        borderWidth: 2,
-                        borderColor: '#ffffff',
-                        hoverOffset: 6
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                font: {
-                                    family: 'Kanit',
-                                    size: 12
-                                },
-                                padding: 15,
-                                usePointStyle: true,
-                                pointStyle: 'circle'
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const label = context.label || '';
-                                    const value = context.raw || 0;
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
-                                    return ` ${label}: ${value} คน (${percentage}%)`;
-                                }
-                            }
-                        }
-                    },
-                    cutout: '68%'
-                }
-            });
-        }
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function $(s) { return document.querySelector(s); }
 
-        // ดึงข้อมูลแบบ GET มาประมวลผลใส่ Chart
-        async function fetchDashboardData() {
-            const loadingEl = document.getElementById('chartLoading');
-            loadingEl.classList.remove('hidden');
+  /* ===================== Sprites ===================== */
+  var PAL = {
+    k: '#1b1033', r: '#ff4d6d', s: '#ffd3a8', b: '#3b82f6', y: '#ffd23f', w: '#ffffff',
+    n: '#8a5a3a', m: '#d9488f', g: '#4fb840', d: '#2d7a2a', h: '#8be86a',
+    c: '#fff3fb', q: '#e0b4e6'
+  };
+  var HERO = [
+    '...kkkkkk...', '..krrrrrrk..', '.krrrrrrrrk.', '.kkkkkkkkkk.',
+    '.ksessssesk.', '.ksssmmsssk.', '..kkkkkkkk..', '..kbbbbbbk..',
+    '.ksbbbbbbsk.', '.ksbbyybbsk.', '..kbbbbbbk..', '..kbbkkbbk..',
+    '.knnk..knnk.', '.kkkk..kkkk.'
+  ];
+  var HERO_BLINK = HERO.slice(); HERO_BLINK[4] = '.kssssssssk.';
+  var TROPHY = [
+    '.kkkkkkkkkkk.', 'kkyywyyyyyykk', 'kykyywyyyykyk', 'kykyyyyyyykyk', 'kkkkyyyyykkkk',
+    '....kyyyk....', '....kyyyk....', '...kkkkkkk...', '...knnnnnk...', '...kkkkkkk...'
+  ];
+  var COIN = [
+    '..kkkk..', '.kyyyyk.', 'kyywyyyk', 'kyywyyyk', 'kyyyyyyk', 'kyyyyyyk', '.kyyyyk.', '..kkkk..'
+  ];
+  var BUSH = [
+    '....dddddd......', '..ddgggggddddd..', '.dgghgggggghgggd', 'dggggggggggggggd', 'dddddddddddddddd'
+  ];
+  var CLOUD = [
+    '......ccccc.......', '....cccccccccc....', '..cccccccccccccc..',
+    '.cccccccccccccccc.', 'cccccccccccccccccc', '.qqqqqqqqqqqqqqqq.'
+  ];
 
-            try {
-                // หากยังไม่ได้เปลี่ยน URL ให้ใช้ข้อมูลจำลองสำหรับพรีวิว
-                if (WEB_APP_URL === 'YOUR_WEB_APP_URL') {
-                    console.warn('ระบุ YOUR_WEB_APP_URL สำหรับการใช้งานจริง');
-                    setTimeout(() => {
-                        updateChartWithCounts({
-                            'เทคโนโลยีธุรกิจดิจิทัล': 12,
-                            'เทคโนโลยีสารสนเทศและนวัตกรรมดิจิทัล': 25,
-                            'ดิจิทัลมีเดียอาร์ต': 18,
-                            'วิศวกรรมความปลอดภัย': 8,
-                            'ไม่สนใจ': 4
-                        });
-                        loadingEl.classList.add('hidden');
-                    }, 500);
-                    return;
-                }
+  function spr(c, rows, x, y, sc, flip) {
+    for (var j = 0; j < rows.length; j++) {
+      var r = rows[j];
+      for (var i = 0; i < r.length; i++) {
+        var ch = r.charAt(flip ? r.length - 1 - i : i);
+        if (ch === '.') continue;
+        c.fillStyle = PAL[ch];
+        c.fillRect(x + i * sc, y + j * sc, sc, sc);
+      }
+    }
+  }
 
-                const response = await fetch(WEB_APP_URL);
-                if (!response.ok) throw new Error('Network response was not ok');
-                
-                const data = await response.json(); 
-                // data คาดว่าจะเป็น Array ของ Object เช่น [{interest: '...'}, ...] หรือ Map สรุปแล้ว
+  function drawHeaderSprites() {
+    var sc = innerWidth < 640 ? 3 : 5;
+    var map = { trophy: TROPHY, coin: COIN };
+    document.querySelectorAll('canvas[data-sprite]').forEach(function (cv) {
+      var rows = map[cv.getAttribute('data-sprite')];
+      var w = rows[0].length, h = rows.length;
+      cv.width = w * sc; cv.height = h * sc;
+      cv.style.width = w * sc + 'px'; cv.style.height = h * sc + 'px';
+      spr(cv.getContext('2d'), rows, 0, 0, sc, false);
+    });
+  }
 
-                const counts = {};
-                ALL_CATEGORIES.forEach(cat => counts[cat] = 0);
+  /* ===================== Scene ===================== */
+  var cv = $('#scene'), ctx = cv.getContext('2d');
+  var S, W, H, gt, sky, fg, stars = [], clouds = [], coinSpots = [], lastW = 0, lastH = 0;
 
-                if (Array.isArray(data)) {
-                    data.forEach(item => {
-                        const val = item.interest || item.สาขา || item['สาขาวิชาที่สนใจ'];
-                        if (counts.hasOwnProperty(val)) {
-                            counts[val]++;
-                        } else if (val) {
-                            counts['ไม่สนใจ']++;
-                        }
-                    });
-                } else if (typeof data === 'object') {
-                    // ในกรณีที่ Apps Script ส่งแบบสรุป { 'เทคโนโลยีธุรกิจดิจิทัล': 5, ... }
-                    ALL_CATEGORIES.forEach(cat => {
-                        if (data[cat] !== undefined) counts[cat] = Number(data[cat]);
-                    });
-                }
+  function mk(w, h) { var c = document.createElement('canvas'); c.width = w; c.height = h; return c; }
+  function hex(h) { return [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)]; }
+  function mix(a, b, t) {
+    var A = hex(a), B = hex(b);
+    return 'rgb(' + A.map(function (v, i) { return Math.round(v + (B[i] - v) * t); }).join(',') + ')';
+  }
+  var SKY = [[0, '#0d1654'], [.35, '#3b1f7a'], [.7, '#a23fb0'], [.9, '#ff6fae'], [1, '#ffc0cf']];
+  function skyColor(t) {
+    for (var i = 0; i < SKY.length - 1; i++) {
+      if (t <= SKY[i + 1][0]) return mix(SKY[i][1], SKY[i + 1][1], (t - SKY[i][0]) / (SKY[i + 1][0] - SKY[i][0]));
+    }
+    return SKY[SKY.length - 1][1];
+  }
+  function tri(x, p, o) { return 1 - Math.abs(((x + o) % p) / p * 2 - 1); }
+  function hash(x) { return ((x * 2654435761) >>> 0) % 997; }
+  function rng(seed) {
+    return function () {
+      seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+      var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
 
-                updateChartWithCounts(counts);
+  function build() {
+    var vw = innerWidth, vh = innerHeight;
+    lastW = vw; lastH = vh;
+    S = vw >= 1600 ? 4 : vw >= 700 ? 3 : 2;
+    W = Math.ceil(vw / S); H = Math.ceil(vh / S);
+    cv.width = W; cv.height = H;
+    cv.style.width = W * S + 'px'; cv.style.height = H * S + 'px';
+    var gh = Math.max(20, Math.min(36, Math.round(H * 0.14)));
+    gt = H - gh;
+    document.documentElement.style.setProperty('--ground', gh * S + 'px');
 
-            } catch (error) {
-                console.error('Error fetching dashboard data:', error);
-            } finally {
-                loadingEl.classList.add('hidden');
-            }
-        }
+    /* sky layer */
+    sky = mk(W, H);
+    var a = sky.getContext('2d'), bands = 20, b;
+    for (b = 0; b < bands; b++) {
+      var y0 = Math.floor(b * gt / bands), y1 = Math.floor((b + 1) * gt / bands);
+      a.fillStyle = skyColor(b / (bands - 1));
+      a.fillRect(0, y0, W, y1 - y0 + 1);
+    }
+    a.fillStyle = skyColor(1); a.fillRect(0, gt, W, H - gt);
+    /* retro striped sun */
+    var r = Math.max(9, Math.min(18, Math.round(H * 0.07)));
+    var cx = Math.floor(W * 0.8), cy = gt - Math.round(r * 1.5);
+    for (var dy = -r; dy <= r; dy++) {
+      if (dy > r * 0.1 && dy % 4 === 3) continue;
+      var hw = Math.floor(Math.sqrt(r * r - dy * dy));
+      a.fillStyle = mix('#ffe56a', '#ff8fb0', (dy + r) / (2 * r));
+      a.fillRect(cx - hw, cy + dy, hw * 2 + 1, 1);
+    }
 
-        // อัปเดตตัวเลขเข้า Chart.js
-        function updateChartWithCounts(counts) {
-            const chartData = ALL_CATEGORIES.map(cat => counts[cat] || 0);
-            const total = chartData.reduce((sum, val) => sum + val, 0);
+    /* foreground layer */
+    fg = mk(W, H);
+    var f = fg.getContext('2d'), x, y;
+    for (x = 0; x < W; x++) {
+      var t1 = tri(x, 64, 0), hFar = Math.floor(H * 0.17 + t1 * H * 0.11 + tri(x, 23, 7) * H * 0.025);
+      f.fillStyle = '#4b3a9c'; f.fillRect(x, gt - hFar, 1, hFar);
+      if (t1 > 0.8) {
+        var cap = Math.floor((t1 - 0.8) * 24);
+        f.fillStyle = '#e9e1ff'; f.fillRect(x, gt - hFar, 1, cap);
+      }
+    }
+    for (x = 0; x < W; x++) {
+      var hNear = Math.floor(H * 0.06 + tri(x, 90, 30) * H * 0.07);
+      f.fillStyle = '#2e2468'; f.fillRect(x, gt - hNear, 1, hNear);
+    }
+    /* ground */
+    f.fillStyle = '#7a4f33'; f.fillRect(0, gt, W, H - gt);
+    for (y = gt + 4; y < H; y += 4) {
+      for (x = 0; x < W; x += 4) {
+        if (((x >> 2) + (y >> 2)) % 2 === 0) { f.fillStyle = '#8a5a3a'; f.fillRect(x, y, 4, 4); }
+      }
+    }
+    f.fillStyle = '#8be86a'; f.fillRect(0, gt, W, 1);
+    f.fillStyle = '#4fb840'; f.fillRect(0, gt + 1, W, 2);
+    f.fillStyle = '#2d7a2a'; f.fillRect(0, gt + 3, W, 1);
+    for (x = 0; x < W; x++) {
+      if (hash(x) % 7 === 0) { f.fillStyle = '#8be86a'; f.fillRect(x, gt - 1, 1, 1); }
+    }
+    /* fence */
+    var wood = '#f0c987', dark = '#6b3f24';
+    f.fillStyle = dark; f.fillRect(0, gt - 6, W, 3); f.fillRect(0, gt - 2, W, 3);
+    f.fillStyle = wood; f.fillRect(0, gt - 7, W, 2); f.fillRect(0, gt - 3, W, 2);
+    for (x = 5; x < W; x += 12) {
+      f.fillStyle = dark; f.fillRect(x - 1, gt - 10, 5, 13);
+      f.fillStyle = wood; f.fillRect(x, gt - 9, 3, 11);
+      f.fillStyle = '#fff1c9'; f.fillRect(x, gt - 9, 1, 11);
+    }
+    /* bushes, trophy */
+    [0.2, 0.5, 0.86].forEach(function (p) {
+      spr(f, BUSH, Math.floor(W * p) - 16, gt - 4, 2, false);
+    });
+    spr(f, TROPHY, Math.floor(W * 0.68), gt - 3, 2, false);
 
-            document.getElementById('totalCount').textContent = total.toLocaleString('th-TH');
+    /* stars */
+    var rnd = rng(7), count = Math.round(W * H / 1500), i;
+    stars = [];
+    var cols = ['#ffffff', '#ffe987', '#ffc2de'];
+    for (i = 0; i < count; i++) {
+      stars.push({ x: Math.floor(rnd() * W), y: Math.floor(rnd() * gt * 0.62), p: Math.floor(rnd() * 6), big: rnd() > 0.7, col: cols[Math.floor(rnd() * 3)] });
+    }
+    /* clouds */
+    clouds = [];
+    var n = Math.max(3, Math.round(W / 140));
+    for (i = 0; i < n; i++) {
+      clouds.push({ x0: rnd() * (W + 80), y: Math.floor(gt * (0.1 + rnd() * 0.45)), sc: rnd() > 0.5 ? 2 : 1, v: 2.5 + rnd() * 4 });
+    }
+    /* coins beside the hero */
+    coinSpots = [[44, -26], [56, -32], [68, -26]].map(function (p) { return { x: p[0], dy: p[1] }; });
+    coinSpots.push({ x: Math.floor(W * 0.58), dy: -22 }, { x: Math.floor(W * 0.93), dy: -26 });
+  }
 
-            interestChart.data.datasets[0].data = chartData;
-            interestChart.update();
-        }
+  function coin(c, x, y, ph) {
+    var ws = [8, 6, 4, 2, 4, 6][ph % 6], x0 = x + 4 - ws / 2;
+    c.fillStyle = PAL.k; c.fillRect(x0 - 1, y + 1, ws + 2, 8); c.fillRect(x0, y, ws, 10);
+    c.fillStyle = PAL.y; c.fillRect(x0, y + 1, ws, 8);
+    if (ws >= 4) { c.fillStyle = '#fff'; c.fillRect(x0 + 1, y + 2, 1, 3); }
+  }
 
-        // ส่งข้อมูลแบบ POST เมื่อกด Submit
-        async function handleFormSubmit(event) {
-            event.preventDefault();
+  function draw(t) {
+    var i, s, c;
+    ctx.drawImage(sky, 0, 0);
+    var tick = Math.floor(t / 350);
+    for (i = 0; i < stars.length; i++) {
+      s = stars[i];
+      var ph = (tick + s.p) % 6;
+      if (ph === 0) continue;
+      ctx.fillStyle = s.col;
+      ctx.fillRect(s.x, s.y, 1, 1);
+      if (ph === 4 && s.big) {
+        ctx.fillRect(s.x - 1, s.y, 1, 1); ctx.fillRect(s.x + 1, s.y, 1, 1);
+        ctx.fillRect(s.x, s.y - 1, 1, 1); ctx.fillRect(s.x, s.y + 1, 1, 1);
+      }
+    }
+    for (i = 0; i < clouds.length; i++) {
+      c = clouds[i];
+      var span = W + 60;
+      var cx = ((c.x0 + (reduce ? 0 : t / 1000 * c.v)) % span) - 30;
+      spr(ctx, CLOUD, Math.floor(cx), c.y, c.sc, false);
+    }
+    ctx.drawImage(fg, 0, 0);
+    var cph = Math.floor(t / 130);
+    for (i = 0; i < coinSpots.length; i++) {
+      var sp = coinSpots[i];
+      var bobY = Math.floor(t / 420 + i) % 2 ? 1 : 0;
+      coin(ctx, sp.x, gt + sp.dy - bobY, cph + i * 2);
+    }
+    /* hero */
+    var bounce = Math.floor(t / 420) % 2 ? 1 : 0;
+    var blink = (t % 3200) > 3000;
+    var hy = gt + 8 - HERO.length * 2 - bounce;
+    ctx.fillStyle = 'rgba(0,0,0,.25)'; ctx.fillRect(9, gt + 6, 24, 2);
+    spr(ctx, blink ? HERO_BLINK : HERO, 9, hy, 2, false);
+  }
 
-            const submitBtn = document.getElementById('submitBtn');
-            const statusMsg = document.getElementById('statusMessage');
+  var last = 0, raf = 0;
+  function loop(t) {
+    raf = requestAnimationFrame(loop);
+    if (t - last < 66) return;
+    last = t; draw(t);
+  }
+  function start() {
+    build();
+    drawHeaderSprites();
+    if (raf) cancelAnimationFrame(raf);
+    if (reduce) draw(0); else raf = requestAnimationFrame(loop);
+  }
+  var rt;
+  addEventListener('resize', function () {
+    clearTimeout(rt);
+    rt = setTimeout(function () {
+      if (innerWidth !== lastW || Math.abs(innerHeight - lastH) > 120) start();
+    }, 150);
+  });
 
-            const formData = new FormData(event.target);
-            const payload = {
-                prefix: formData.get('prefix'),
-                fullname: formData.get('fullname'),
-                gender: formData.get('gender'),
-                age: Number(formData.get('age')),
-                education: formData.get('education'),
-                school: formData.get('school'),
-                phone: formData.get('phone'),
-                lineId: formData.get('lineId') || '-',
-                interest: formData.get('interest'),
-                timestamp: new Date().toISOString()
-            };
+  /* ===================== Sound ===================== */
+  var audio = null, muted = false;
+  try { muted = localStorage.getItem('mywebs-muted') === '1'; } catch (e) {}
+  function beep(freq, dur, vol) {
+    if (muted) return;
+    try {
+      audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+      if (audio.state === 'suspended') audio.resume();
+      var o = audio.createOscillator(), g = audio.createGain(), now = audio.currentTime;
+      o.type = 'square'; o.frequency.setValueAtTime(freq, now);
+      g.gain.setValueAtTime(vol, now);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+      o.connect(g); g.connect(audio.destination);
+      o.start(now); o.stop(now + dur);
+    } catch (e) {}
+  }
+  function hoverBlip() { if (audio && !muted) beep(440, 0.04, 0.025); }
+  function clickSound() { beep(660, 0.07, 0.07); setTimeout(function () { beep(990, 0.1, 0.07); }, 70); }
 
-            // แสดงสถานะ Loading
-            submitBtn.disabled = true;
-            submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
-            submitBtn.innerHTML = `
-                <div class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                <span>กำลังบันทึกข้อมูล...</span>
-            `;
+  var snd = $('#snd');
+  function paintSnd() { snd.textContent = muted ? 'SOUND OFF' : 'SOUND ON'; snd.setAttribute('aria-pressed', muted ? 'false' : 'true'); }
+  snd.addEventListener('click', function () {
+    muted = !muted; paintSnd();
+    try { localStorage.setItem('mywebs-muted', muted ? '1' : '0'); } catch (e) {}
+    if (!muted) beep(784, 0.08, 0.06);
+  });
+  paintSnd();
 
-            try {
-                if (WEB_APP_URL === 'YOUR_WEB_APP_URL') {
-                    // โหมดจำลองสำหรับทดสอบ UI
-                    await new Promise(resolve => setTimeout(resolve, 1000));
-                    showStatus('บันทึกข้อมูลสำเร็จ (โหมด Demo)', 'success');
-                    event.target.reset();
-                    fetchDashboardData();
-                    return;
-                }
+  /* ===================== Menu ===================== */
+  var fx = $('#fx'), toast = $('#toast'), toastTimer;
+  function showToast(msg) {
+    toast.textContent = msg; toast.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toast.hidden = true; }, 2600);
+  }
+  function burst(x, y) {
+    if (reduce) return;
+    var cols = ['#ffd23f', '#ff6fae', '#ffffff', '#5cc8ff'];
+    for (var i = 0; i < 14; i++) {
+      var p = document.createElement('span');
+      var ang = Math.random() * Math.PI * 2, d = 26 + Math.random() * 46;
+      p.className = 'px';
+      p.style.left = x - 4 + 'px'; p.style.top = y - 4 + 'px';
+      p.style.background = cols[i % cols.length];
+      p.style.setProperty('--dx', Math.round(Math.cos(ang) * d / 4) * 4 + 'px');
+      p.style.setProperty('--dy', Math.round(Math.sin(ang) * d / 4) * 4 + 'px');
+      p.addEventListener('animationend', function () { this.remove(); });
+      fx.appendChild(p);
+    }
+  }
+  function press(el, e) {
+    el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
+    var rect = el.getBoundingClientRect();
+    var x = e && e.clientX ? e.clientX : rect.left + rect.width / 2;
+    var y = e && e.clientY ? e.clientY : rect.top + rect.height / 2;
+    burst(x, y); clickSound();
+  }
+  function hostOf(u) { try { return new URL(u).hostname; } catch (e) { return u; } }
 
-                // Google Apps Script ต้องการ mode: 'no-cors' เมื่อส่งแบบ JSON
-                const response = await fetch(WEB_APP_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'text/plain;charset=utf-8' // ป้องกัน CORS Preflight Trigger กับ Apps Script
-                    },
-                    body: JSON.stringify(payload)
-                });
+  var NS = 'http://www.w3.org/2000/svg';
+  function arrow() {
+    var s = document.createElementNS(NS, 'svg');
+    s.setAttribute('class', 'go'); s.setAttribute('viewBox', '0 0 5 7'); s.setAttribute('shape-rendering', 'crispEdges'); s.setAttribute('aria-hidden', 'true');
+    [[0, 0, 1, 7], [1, 1, 1, 5], [2, 2, 1, 3], [3, 3, 1, 1]].forEach(function (r) {
+      var el = document.createElementNS(NS, 'rect');
+      el.setAttribute('x', r[0]); el.setAttribute('y', r[1]); el.setAttribute('width', r[2]); el.setAttribute('height', r[3]);
+      s.appendChild(el);
+    });
+    return s;
+  }
+  function lockIcon() {
+    var s = document.createElementNS(NS, 'svg');
+    s.setAttribute('class', 'go lock'); s.setAttribute('viewBox', '0 0 7 8'); s.setAttribute('shape-rendering', 'crispEdges'); s.setAttribute('aria-hidden', 'true');
+    [[2, 0, 3, 1], [1, 1, 1, 2], [5, 1, 1, 2], [0, 3, 7, 5]].forEach(function (r) {
+      var el = document.createElementNS(NS, 'rect');
+      el.setAttribute('x', r[0]); el.setAttribute('y', r[1]); el.setAttribute('width', r[2]); el.setAttribute('height', r[3]);
+      s.appendChild(el);
+    });
+    return s;
+  }
 
-                showStatus('ลงทะเบียนเรียบร้อยแล้ว! ขอบคุณที่ให้ความสนใจ', 'success');
-                event.target.reset();
-                
-                // ดึงข้อมูล Dashboard ใหม่ทันที
-                setTimeout(() => {
-                    fetchDashboardData();
-                }, 1000);
+  var menu = $('#menu'), open = 0;
+  LINKS.forEach(function (L, i) {
+    var li = document.createElement('li');
+    var locked = !L.url;
+    var el = document.createElement(locked ? 'button' : 'a');
+    el.className = 'btn' + (locked ? ' locked' : '');
+    var tone = TONES[L.tone] || TONES.pink;
+    el.style.setProperty('--c', tone[0]); el.style.setProperty('--hi', tone[1]); el.style.setProperty('--lo', tone[2]);
+    if (locked) {
+      el.type = 'button'; el.setAttribute('aria-disabled', 'true');
+    } else {
+      open++;
+      el.href = L.url;
+      el.target = OPEN_IN_SAME_TAB ? '_self' : '_blank';
+      el.rel = 'noopener noreferrer';
+    }
+    var badge = document.createElement('span'); badge.className = 'badge'; badge.textContent = String(i + 1); badge.setAttribute('aria-hidden', 'true');
+    var txt = document.createElement('span'); txt.className = 'txt';
+    var name = document.createElement('span'); name.className = 'name'; name.textContent = L.name;
+    var host = document.createElement('span'); host.className = 'host'; host.textContent = locked ? 'LOCKED · ยังไม่ได้ใส่ URL' : hostOf(L.url);
+    txt.appendChild(name); txt.appendChild(host);
+    el.appendChild(badge); el.appendChild(txt); el.appendChild(locked ? lockIcon() : arrow());
+    el.addEventListener('pointerdown', function () { el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); });
+    el.addEventListener('click', function (e) {
+      press(el, e);
+      if (locked) showToast('ด่านนี้ยังล็อกอยู่ ยังไม่ได้ใส่ URL');
+    });
+    el.addEventListener('pointerenter', hoverBlip);
+    el.addEventListener('focus', hoverBlip);
+    li.appendChild(el); menu.appendChild(li);
+  });
+  $('#count').innerHTML = 'UNLOCKED <b>' + open + '/' + LINKS.length + '</b>';
 
-            } catch (error) {
-                console.error('Error submitting form:', error);
-                showStatus('เกิดข้อผิดพลาดในการส่งข้อมูล กรุณาลองใหม่อีกครั้ง', 'error');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
-                submitBtn.innerHTML = `
-                    <span>ส่งข้อมูลลงทะเบียน</span>
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                    </svg>
-                `;
-            }
-        }
+  document.addEventListener('keydown', function (e) {
+    var keys = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 };
+    if (!(e.key in keys)) return;
+    var items = Array.prototype.slice.call(document.querySelectorAll('.btn'));
+    var idx = items.indexOf(document.activeElement);
+    if (idx === -1 && keys[e.key] < 0) return;
+    e.preventDefault();
+    var next = idx === -1 ? 0 : (idx + keys[e.key] + items.length) % items.length;
+    items[next].focus();
+  });
 
-        function showStatus(text, type) {
-            const statusMsg = document.getElementById('statusMessage');
-            statusMsg.textContent = text;
-            statusMsg.classList.remove('hidden', 'bg-emerald-100', 'text-emerald-700', 'bg-rose-100', 'text-rose-700');
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { /* fonts affect DOM only */ });
+  start();
+})();
+</script>
 
-            if (type === 'success') {
-                statusMsg.classList.add('bg-emerald-100', 'text-emerald-700');
-            } else {
-                statusMsg.classList.add('bg-rose-100', 'text-rose-700');
-            }
-
-            setTimeout(() => {
-                statusMsg.classList.add('hidden');
-            }, 5000);
-        }
-    </script>
-</body>
-</html>
+</body></html>
